@@ -1,17 +1,21 @@
 const mysql = require('mysql2');
-const connection = mysql.createConnection({
+
+const con = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'Satvik@123', 
-  database: 'drafters' 
+  password: '123456',
+  database: 'drafters',
+ 
 });
 
-connection.connect((err) => {
+con.getConnection((err, connection) => {
   if (err) {
-    console.error("Oops! There was an error connecting to the database. Please try again.", err.stack);
-    return;
+    console.error("Oops! There was an error connecting to the database:", err.stack);
+    process.exit(1); // Exit the application if the connection fails
+  } else {
+    console.log("Successfully connected to the database!");
+
   }
-  console.log("Successfully connected to the database!");
 });
 
-module.exports = connection;
+module.exports = con;

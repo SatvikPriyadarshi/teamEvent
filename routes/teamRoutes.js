@@ -4,6 +4,7 @@ const router = express.Router();
 const teamController = require('../controllers/teamController');
 
 router.get('/teams', teamController.getAllTeams);
-router.get('/game/:game_id', teamController.getTeamsByGameId);
+router.post('/game/:game_id', teamController.getTeamsByGameId);
+router.put('/update/:game_id', teamController.updateEvents);
 
 module.exports = router;
