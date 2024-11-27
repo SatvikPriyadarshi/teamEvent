@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const teamRoutes = require('./routes/teamRoutes');
-
+require('dotenv').config()
 const app = express();
 const port = 8080; 
 

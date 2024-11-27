@@ -58,8 +58,10 @@ exports.updateEvents = async (req, res) => {
     const time_unix_timestamp=Date.parse(updateFields.start_time);
     updateFields.start_time= Math.floor(time_unix_timestamp / 1000)
     }
-    const updateQuery = `UPDATE events SET modified='${getCurrentDateTime()}' ,${fields.map(field => `${field} = ?`).join(", ")} WHERE game_id = ?;`;
-    const values = [...fields.map(field => updateFields[field]), game_id];
+    const updateQuery = `UPDATE events SET modified=? ,${fields.map(field => `${field} = ?`).join(", ")} WHERE game_id = ?;`;
+    const values = [getCurrentDateTime(),...fields.map(field => updateFields[field]), game_id];
+    console.log(updateQuery);
+    console.log(values);
     con.query(updateQuery, values, (err, result) => {
       if (err) {
         return res.status(500).send({ message: "Database error.", error: err.message });
@@ -67,10 +69,10 @@ exports.updateEvents = async (req, res) => {
       if (result.affectedRows === 0) {
         return res.status(404).send({ message: "Event not found or no changes made." });
       }
+
       res.send({ message: "Event updated successfully.", result });
     });
   } catch (err) {
-    console.error("Error in updateEvents controller:", err);
     res.status(500).send({ message: "An internal server error occurred.", error: err.message });
   }
 };
