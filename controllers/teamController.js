@@ -43,7 +43,6 @@ exports.updateEvents = async (req, res) => {
   try {
     let  { game_id } = req.params; 
     const updateFields = req.body;
-     game_id = parseInt(game_id)  
     if (!game_id) {
       return res.status(400).send({ message: "game_id is required to update the event." });
     }
