@@ -1,22 +1,13 @@
 const connection = require('../db');
 
 const Event = {
-  insertEvents: (events) => {
-    return new Promise((resolve, reject) => {
-      const values = events.map(event => [
-        event.game_id, event.first_team_id, event.second_team_id, event.is_active
-      ]);
-
-      const sql = `
-        INSERT INTO events (game_id, first_team_id, second_team_id, is_active)
-        VALUES ?
-      `;
-
-      connection.query(sql, [values], (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      });
-    });
+  insertEvents: async (events) => {
+    try {
+      const queries = events.map((event) => connection.query('INSERT INTO events SET ?', event));
+      await Promise.all(queries); 
+    } catch (err) {
+      throw new Error("Error inserting events: " + err.message);
+    }
   }
 };
 

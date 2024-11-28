@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const teamRoutes = require('./routes/teamRoutes');
 
 const app = express();
-const port = 8080; 
+const port = 8080;
 
 app.use(bodyParser.json());
 app.use('/', teamRoutes);
